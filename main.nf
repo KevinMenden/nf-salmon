@@ -60,7 +60,7 @@ process quant {
 
     script:
     """
-    salmon quant --threads $task.cpus --validateMappings  -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id
+    salmon quant --threads $task.cpus  --libType A --validateMappings  -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id
     """
 }
 

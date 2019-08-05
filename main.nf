@@ -32,6 +32,7 @@ transcriptome_file = file(params.transcriptome)
 */
 process index {
     tag "transcriptome.simpleName"
+    publishDir "${params.outdir}/salmon", mode: 'copy'
 
     input:
     file transcriptome from transcriptome_file
@@ -50,6 +51,7 @@ process index {
 */
 process quant {
     tag "$pair_id"
+    publishDir "${params.outdir}/salmon", mode: 'copy'
 
     input:
     file index from index_ch

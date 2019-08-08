@@ -13,6 +13,8 @@
  * SET UP CONFIGURATION VARIABLES
  */
 
+transcriptome_file = file(params.transcriptome)
+params.kmer = 29
 
 
 /*
@@ -25,7 +27,6 @@ Channel
         .into { read_files_salmon }
 
 
-transcriptome_file = file(params.transcriptome)
 
 /**
 * STEP 1 - Build Index
@@ -42,7 +43,7 @@ process index {
 
     script:
     """
-    salmon index --threads $task.cpus -t $transcriptome -i index
+    salmon index --threads $task.cpus -t $transcriptome -i index -k ${params.kmer}
     """
 }
 
@@ -62,7 +63,7 @@ process quant {
 
     script:
     """
-    salmon quant --threads $task.cpus  --libType A   --gcBias --seqBias --validateMappings  -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id
+    salmon quant --threads $task.cpus  --libType A   --gcBias --seqBias  -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id
     """
 }
 
